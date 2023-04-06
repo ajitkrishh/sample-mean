@@ -1,0 +1,115 @@
+<h1 mat-dialog-title>
+    Fill Location Details
+</h1>
+<div mat-dialog-content>
+
+    <mat-form-field class="max-width">
+        <input [formControl]="Address"  placeholder="Address" matInput [value]="formdata.address" >
+    </mat-form-field>
+    <div  *ngIf="Address.invalid && (Address.dirty || Address.touched)" class="alert">
+        <span *ngIf="Address.errors?.['required']">
+            Address is required.
+        </span>
+        <span *ngIf="Address.hasError('minlength')">
+            Minimum length is 5 char
+        </span>
+    </div>
+    <br>
+    <!-- -------------------------------------------------------------- -->
+    <!-- -------------------------------------------------------------- -->
+    <mat-form-field class="right-margin">
+        <mat-label>Country</mat-label>
+        <input type="text"  matInput [formControl]="Country" [matAutocomplete]="autoCountry" (change)="CountryChange()">
+        <mat-autocomplete autoActiveFirstOption  #autoCountry="matAutocomplete" [displayWith]="displayCountry.bind(this)">
+            <mat-option *ngFor="let option of filteredCountries | async" [value]="option" id={{option._id}}>
+                {{option.name}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+    <!-- -------------------------------------------------------------- -->
+    <mat-form-field class="">
+        <mat-label>State</mat-label>
+        <input type="text" matInput [formControl]="State" [matAutocomplete]="autoState" (focus)="loadState()" (change)="StateChange()">
+        <mat-autocomplete autoActiveFirstOption #autoState="matAutocomplete" [displayWith]="displayState.bind(this)">
+            <mat-option *ngFor="let option of filteredStates | async" [value]="option" id={{option._id}}>
+                {{option.name}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+    <!-- ------------------------------------------------------------------ -->
+    <div class="errors">
+        <span *ngIf="Country.invalid && (Country.dirty || Country.touched)" class="alert half-width">
+            <span *ngIf="Country.errors?.['required']">
+                Country is required.
+            </span>
+            <span *ngIf="Country.errors?.['minlength']">
+                Minimum length is 3 char.
+            </span>
+            <span *ngIf="Country.hasError('selection')">
+                invalid Selection
+            </span>
+        </span>
+        <!-- <span *ngIf="State.invalid && (State.dirty || State.touched)" [ngClass]="Country.valid ? 'alert half-width' :'alert half-width'"> -->
+        <span *ngIf="State.invalid && (State.dirty || State.touched)" [ngClass]="'alert half-width right'">
+            <span *ngIf="State.errors?.['required']">
+                State is required.
+            </span>
+            <span *ngIf="State.errors?.['minlength']">
+                Minimum length is 3 char.
+            </span>
+            <span *ngIf="State.hasError('selection')">
+                invalid Selection
+            </span>
+            
+        </span>
+    </div>
+
+    <!-- -------------------------------------------------------------- -->
+    <br>
+    <!-- -------------------------------------------------------------- -->
+    <mat-form-field class="right-margin">
+        <mat-label>City</mat-label>
+        <input type="text" matInput [formControl]="City" [matAutocomplete]="autoCity" (focus)="loadCity()" (change)="CityChange()" >
+        <mat-autocomplete autoActiveFirstOption #autoCity="matAutocomplete" [displayWith]="displayCity.bind(this)">
+            <mat-option *ngFor="let option of filteredCities | async" [value]="option" id={{option._id}}>
+                {{option.name}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+    <!-- -------------------------------------------------------------- -->
+
+    <mat-form-field>
+        <mat-label>pincode</mat-label>
+        <input [formControl]="Pincode" placeholder="pincode" type="number" matInput [value]="formdata.pincode">
+    </mat-form-field>
+    <div class="errors">
+        <span *ngIf="City.invalid && (City.dirty || City.touched)" class="alert half-width">
+            <span *ngIf="City.errors?.['required']">
+                City is required.
+            </span>
+            <span *ngIf="City.errors?.['minlength']">
+                Minimum length is 3 char.
+            </span>
+            <span *ngIf="City.hasError('selection')">
+                invalid Selection
+            </span>
+        </span>
+        <!-- <span *ngIf="State.invalid && (State.dirty || State.touched)" [ngClass]="Country.valid ? 'alert half-width' :'alert half-width'"> -->
+        <span *ngIf="Pincode.invalid && (Pincode.dirty || Pincode.touched)" [ngClass]="'alert half-width right'">
+            <span *ngIf="Pincode.errors?.['required']">
+                Pincode is required.
+            </span>
+            
+            <span *ngIf="Pincode.errors?.['pattern']">
+                Pincode is invalid.
+            </span>
+            
+        </span>
+    </div>
+
+
+    <div mat-dialog-actions>
+        <button mat-button [disabled]="!(City.valid && Country.valid && Address.valid && State.valid && Pincode.valid)" (click)="confirm()">Submit</button>
+        <!-- <button mat-button [mat-dialog-close]="data" [disabled]="!(City.valid && Country.valid && Address.valid && State.valid && Pincode.valid)" (click)="confirm()">Submit</button> -->
+        <button mat-button (click)="onNoClick()">Close</button>
+    </div>

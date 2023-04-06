@@ -1,0 +1,26 @@
+.right-margin{
+    margin-right:10px;
+}
+.alert{
+    font-size: smaller;
+    color: red;
+    padding-left: 1%;
+}
+.right{
+    float: right;
+}
+.max-width{
+    width:100%;
+}
+.half-width{
+    width: 49%;
+}
+.errors{
+    margin-top:-1%;
+}
+mat-form-field{
+    margin-bottom: -1rem;
+}
+::ng-deep .mat-form-field-underline {
+    display: none;
+}

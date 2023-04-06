@@ -1,0 +1,95 @@
+<mat-toolbar color="primary">
+    <span class="title" routerLink="/">Dashboard</span>
+    <span class="spacer"></span>
+    <span class="welcome-text">Hello {{ user }}</span>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>person_pin</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="logout()">
+            <span>Logout</span>
+        </button>
+    </mat-menu>
+</mat-toolbar>
+<mat-card class="mat-elevation-z2">
+    <div class="mat-elevation-z20" style="width:80%;
+            margin:2% 10%;
+            padding: 2%">
+        <div class="util ">
+            <div class="search" style="float:left;">
+                <mat-form-field>
+                    <input type="search" placeholder="Search here" matInput name="search" id="idSearch" (keyup)="searchLocation()" [(ngModel)]="srch" minlength="3" #srchterm="ngModel">
+                </mat-form-field>
+                <div *ngIf="srchterm.invalid && (srchterm.dirty || srchterm.touched)" class="alert">
+                    <div *ngIf="srchterm.errors?.['minlength']">Search term must be at least 3 characters long.</div>
+                </div>
+            </div>
+            <div style="float:right">
+                <button mat-mini-fab color="primary" (click)="add()">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </div>
+        <table matSort mat-table  [dataSource]="dataSource">
+            <!-- id Column -->
+            <ng-container  matColumnDef="id">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>No.</th>
+                <td mat-cell *matCellDef="let element">  {{ element._id }}</td>
+            </ng-container>
+           
+            <!-- address Column -->
+            <ng-container matColumnDef="address">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>Address</th>
+                <td mat-cell *matCellDef="let element">{{ element.address }}</td>
+            </ng-container>
+            <!-- city Column -->
+            <ng-container matColumnDef="city">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>City name</th>
+                <td mat-cell  *matCellDef="let element" >{{ element.city.name }}</td>
+            </ng-container>
+            
+            <!-- picode Column -->
+            <ng-container matColumnDef="pincode">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>Pincode</th>
+                <td mat-cell *matCellDef="let element" >{{ element.pincode }}</td>
+            </ng-container>
+            <!-- state Column -->
+            <ng-container matColumnDef="state">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>State</th>
+                <!-- <input type="hidden" name="stateid" *matCellDef="let element" value = "{{ element.stateId }}"> -->
+
+                <td mat-cell *matCellDef="let element" data-id= "{{element.city.stateId}}">{{ element.state.name }}</td>
+            </ng-container>
+            <!-- country Column -->
+            <ng-container matColumnDef="country">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>Country</th>
+                <!-- <input type="hidden" name="countryid" *matCellDef="let element" value = "{{ element.countryId }}"> -->
+                <td mat-cell *matCellDef="let element" data-id= "{{element.state.countryId}}">{{ element.country.name }}</td>
+            </ng-container>
+            <!-- edit Column -->
+            <ng-container matColumnDef="edit">
+                <th mat-header-cell *matHeaderCellDef>Edit</th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-mini-fab color="accent" (click)="edit(element._id)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+            <!-- delete Column -->
+            <ng-container matColumnDef="delete">
+                <th mat-header-cell *matHeaderCellDef>Delete</th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-mini-fab color="warn" (click)="delete(element._id)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns">
+            </tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+            </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10]" showFirstLastButtons aria-label="Select page of fruits">
+        </mat-paginator>
+    </div>
+</mat-card>
