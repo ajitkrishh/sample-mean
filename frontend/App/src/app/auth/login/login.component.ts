@@ -46,7 +46,6 @@ export class LoginComponent implements OnInit {
           alert("Backend Not Configured !!! ")
         }
         this.loginValid = false; console.log(error);
-        
         this.errormsg = error.error.message;   
       }
     )

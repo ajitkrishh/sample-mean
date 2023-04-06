@@ -162,10 +162,6 @@ export class DialogComponent implements OnInit {
   confirm() {
     if (this.Address.value !== null && this.Pincode.value !== null) {
       let form:any = { "address":this.Address.value , "pincode":this.Pincode.value.toString() , "cityId":this.formdata.cityId }
-      // this.formdata.address = this.Address.value
-      // this.formdata.pincode = this.Pincode.value.toString()
-      // let formm = this.formdata
-      console.log("final form ",form);
       if (!!form.cityId) {
         this.dialogRef.close({ data: form });
       }

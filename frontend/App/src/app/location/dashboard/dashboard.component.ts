@@ -19,7 +19,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   formdailog: MatDialogRef<DialogComponent> | null = null;
   user = "user"
   srch = ""
-  completeData: any[] = []
   @ViewChild(MatPaginator) paginator !: MatPaginator
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -98,21 +97,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             delete res.state.id
             delete res.country.id
             this.dataSource.data[foundIndex] = res;
-            
+
             this.dataSource.data = this.dataSource.data;
           })
-
-
-
-          // *******************************************
         }, (err) => {
           console.log(err);
 
         })
       }
     })
-
-
   }
   delete(id: string) {
     if (window.confirm("Are you Sure , You want to delete item id: " + id + " ?")) {
@@ -120,16 +113,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         const foundIndex = this.dataSource.data.findIndex(x => x.id === id);
         this.dataSource.data.splice(foundIndex, 1);
         this.dataSource.data = this.dataSource.data;
-
       }, (err) => {
         console.log(err);
-
       })
     }
-
-
-
   }
-
-
 }
